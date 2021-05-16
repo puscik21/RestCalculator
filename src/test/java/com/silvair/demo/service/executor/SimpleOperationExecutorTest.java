@@ -5,13 +5,11 @@ import com.silvair.demo.entity.OperationType;
 import com.silvair.demo.exception.OperationException;
 import org.junit.jupiter.api.Test;
 
-import javax.management.openmbean.OpenDataException;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class SimpleOperationExecutorTest {
 
-    private SimpleOperationExecutor simpleOperationExecutor = new SimpleOperationExecutor();
+    private final SimpleOperationExecutor simpleOperationExecutor = new SimpleOperationExecutor();
 
     @Test
     void numbersShouldBeAdded() {
@@ -34,32 +32,8 @@ class SimpleOperationExecutorTest {
     }
 
     @Test
-    void shouldThrowExceptionForDivisionByZero() {
-        Operation operation = new Operation(10.0, 0.0, "", OperationType.DIVIDE);
-        assertThrows(OperationException.class, () -> simpleOperationExecutor.executeOperation(operation));
-    }
-
-    @Test
-    void shouldThrowExceptionForNullAVariable() {
-        Operation operation = new Operation(null, 30.0, "", OperationType.ADD);
-        assertThrows(OpenDataException.class, () -> simpleOperationExecutor.executeOperation(operation));
-    }
-
-    @Test
-    void shouldThrowExceptionForNullBVariable() {
-        Operation operation = new Operation(10.0, null, "", OperationType.ADD);
-        assertThrows(OpenDataException.class, () -> simpleOperationExecutor.executeOperation(operation));
-    }
-
-    @Test
-    void shouldThrowExceptionForNullTypeVariable() {
-        Operation operation = new Operation(10.0, 30.0, "", null);
-        assertThrows(OpenDataException.class, () -> simpleOperationExecutor.executeOperation(operation));
-    }
-
-    @Test
     void shouldThrowExceptionForWrongOperationType() {
         Operation operation = new Operation(10.0, 30.0, "", OperationType.TEXT);
-        assertThrows(OpenDataException.class, () -> simpleOperationExecutor.executeOperation(operation));
+        assertThrows(OperationException.class, () -> simpleOperationExecutor.executeOperation(operation));
     }
 }
