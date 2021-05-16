@@ -3,14 +3,21 @@ package com.silvair.demo.service.executor;
 import com.silvair.demo.entity.Operation;
 import com.silvair.demo.entity.OperationType;
 import com.silvair.demo.exception.OperationException;
+import com.silvair.demo.service.validator.OperationValidator;
+import com.silvair.demo.service.validator.SimpleOperationValidator;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
 public class SimpleOperationExecutor implements OperationExecutor {
+    private final OperationValidator operationValidator;
 
     private final List<OperationType> operationTypes = List.of(OperationType.ADD, OperationType.SUBTRACT, OperationType.MULTIPLY, OperationType.DIVIDE);
+
+    public SimpleOperationExecutor(SimpleOperationValidator simpleOperationValidator) {
+        this.operationValidator = simpleOperationValidator;
+    }
 
     @Override
     public boolean isProperType(OperationType operationType) {
@@ -19,25 +26,8 @@ public class SimpleOperationExecutor implements OperationExecutor {
 
     @Override
     public double executeOperation(Operation operation) throws OperationException {
-        validateData(operation);
+        operationValidator.validateData(operation);
         return useProperOperation(operation);
-    }
-
-    private void validateData(Operation operation) throws OperationException {
-        checkMandatoryValues(operation);
-        checkDivisionByZero(operation);
-    }
-
-    private void checkMandatoryValues(Operation operation) throws OperationException {
-        if (operation.getA() == null || operation.getB() == null) {
-            throw new OperationException("Mandatory value is null");
-        }
-    }
-
-    private void checkDivisionByZero(Operation operation) throws OperationException {
-        if (operation.getType() == OperationType.DIVIDE && operation.getB() == 0) {
-            throw new OperationException("Division by 0");
-        }
     }
 
     private double useProperOperation(Operation operation) throws OperationException {

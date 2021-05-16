@@ -43,25 +43,6 @@ public class CalculateServiceTest {
         assertEquals(1.5, calculateService.calculateOperation(operation));
     }
 
-
-    @Test
-    void shouldThrowExceptionForDivisionByZero() {
-        Operation operation = new Operation(10.0, 0.0, "", OperationType.DIVIDE);
-        assertThrows(OperationException.class, () -> calculateService.calculateOperation(operation));
-    }
-
-    @Test
-    void shouldThrowExceptionForNullAVariable() {
-        Operation operation = new Operation(null, 30.0, "", OperationType.ADD);
-        assertThrows(OperationException.class, () -> calculateService.calculateOperation(operation));
-    }
-
-    @Test
-    void shouldThrowExceptionForNullBVariable() {
-        Operation operation = new Operation(10.0, null, "", OperationType.ADD);
-        assertThrows(OperationException.class, () -> calculateService.calculateOperation(operation));
-    }
-
     @Test
     void shouldThrowExceptionForNullTypeVariable() {
         Operation operation = new Operation(10.0, 30.0, "", null);
