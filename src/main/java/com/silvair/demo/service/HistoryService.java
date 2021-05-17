@@ -41,7 +41,11 @@ public class HistoryService {
     }
 
     public List<RequestHistory> getNumberOfRecords(int limit) {
-        return historyRepository.findAll();
+        List<RequestHistory> allRecords = historyRepository.findAll();
+        if (limit > allRecords.size()) {
+            limit = allRecords.size();
+        }
+        return allRecords.subList(allRecords.size() - limit, allRecords.size());
     }
 
     public Double sumOfLastOperations(Integer limit) {
@@ -52,6 +56,8 @@ public class HistoryService {
             requestHistories = getNumberOfRecords(limit);
         }
 
-        return 0.0;
+        return requestHistories.stream()
+                .mapToDouble(RequestHistory::getResult)
+                .sum();
     }
 }
