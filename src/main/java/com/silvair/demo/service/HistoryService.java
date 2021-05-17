@@ -57,7 +57,7 @@ public class HistoryService {
         }
 
         return requestHistories.stream()
-                .mapToDouble(RequestHistory::getResult)
+                .mapToDouble(RequestHistory::getResultOrZero)
                 .sum();
     }
 }
