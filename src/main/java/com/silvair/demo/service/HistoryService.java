@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class HistoryService {
@@ -21,16 +22,22 @@ public class HistoryService {
         this.historyRepository = historyRepository;
     }
 
-    public void saveRequestHistory(Operation operation, Double result, HttpStatus status) {
-        RequestHistory requestHistory = buildRequestHistory(operation, result, status);
+    public void saveOperationRequestHistory(Operation operation, Double result, String path, Integer status) {
+        RequestHistory requestHistory = buildRequestHistory(operation, result, path, status);
         operationRepository.save(operation);
         historyRepository.save(requestHistory);
     }
 
-    private RequestHistory buildRequestHistory(Operation operation, Double result, HttpStatus status) {
+    public void saveRequestHistory(String path, Integer status) {
+        RequestHistory requestHistory = buildRequestHistory(null, null, path, status);
+        historyRepository.save(requestHistory);
+    }
+
+    private RequestHistory buildRequestHistory(Operation operation, Double result, String path, Integer status) {
         RequestHistory requestHistory = new RequestHistory();
         requestHistory.setOperation(operation);
         requestHistory.setResult(result);
+        requestHistory.setPath(path);
         requestHistory.setDate(LocalDateTime.now());
         requestHistory.setStatus(status);
         return requestHistory;
@@ -59,5 +66,9 @@ public class HistoryService {
         return requestHistories.stream()
                 .mapToDouble(RequestHistory::getResultOrZero)
                 .sum();
+    }
+
+    public Map<String, Integer> getRequestStatistics() {
+        return null;
     }
 }

@@ -28,7 +28,7 @@ class HistoryServiceTest {
         for (int i = 0; i < HistoryRecordsCount; i++) {
             Operation operation = Operation.textOperation("1 + 3");
             double result = calculateService.calculateOperation(operation);
-            historyService.saveRequestHistory(operation, result, HttpStatus.OK);
+            historyService.saveOperationRequestHistory(operation, result, "/test", HttpStatus.OK.value());
         }
     }
 

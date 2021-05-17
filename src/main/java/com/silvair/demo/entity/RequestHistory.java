@@ -28,7 +28,7 @@ public class RequestHistory {
     private Double result;
     private String path;
     private LocalDateTime date;
-    private HttpStatus status;
+    private Integer status;
 
     public Double getResultOrZero() {
         return Objects.requireNonNullElse(result, 0.0);

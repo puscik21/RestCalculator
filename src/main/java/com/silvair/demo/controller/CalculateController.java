@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/")
@@ -27,15 +29,14 @@ public class CalculateController {
         this.historyService = historyService;
     }
 
-    // TODO: 17.05.2021 add path to history
     @PostMapping("/calculate")
-    public ResponseEntity<String> calculateOperation(@RequestBody Operation operation) {
+    public ResponseEntity<String> calculateOperation(@RequestBody Operation operation, HttpServletRequest request) {
         try {
             double result = calculateService.calculateOperation(operation);
-            historyService.saveRequestHistory(operation, result, HttpStatus.OK);
+            historyService.saveOperationRequestHistory(operation, result, request.getRequestURI(), HttpStatus.OK.value());
             return ResponseEntity.ok(String.valueOf(result));
         } catch (OperationException e) {
-            historyService.saveRequestHistory(operation, null, HttpStatus.BAD_REQUEST);
+            historyService.saveOperationRequestHistory(operation, null, request.getRequestURI(), HttpStatus.BAD_REQUEST.value());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
@@ -52,5 +53,10 @@ public class CalculateController {
     @GetMapping("/history/sum")
     public Double sumNumberOfLastOperations(@RequestParam(required = false) Integer limit) {
         return historyService.sumOfLastOperations(limit);
+    }
+
+    @GetMapping("/statistics")
+    public Map<String, Integer> getRequestStatistics() {
+        return historyService.getRequestStatistics();
     }
 }
