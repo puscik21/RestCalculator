@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Entity
 @Data
@@ -28,4 +29,8 @@ public class RequestHistory {
     private String path;
     private LocalDateTime date;
     private HttpStatus status;
+
+    public Double getResultOrZero() {
+        return Objects.requireNonNullElse(result, 0.0);
+    }
 }
