@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class HistoryService {
@@ -67,7 +66,8 @@ public class HistoryService {
                 .sum();
     }
 
-    public Map<String, Integer> getRequestStatistics() {
-        return null;
+    public StatsResponse getRequestStatistics() {
+        List<HistoryRecord> records = getAllHistoryRecords();
+        return StatsResponse.fromRecords(records);
     }
 }

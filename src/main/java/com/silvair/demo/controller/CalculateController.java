@@ -5,6 +5,7 @@ import com.silvair.demo.entity.HistoryRecord;
 import com.silvair.demo.exception.OperationException;
 import com.silvair.demo.service.CalculateService;
 import com.silvair.demo.service.HistoryService;
+import com.silvair.demo.service.StatsResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -56,7 +57,7 @@ public class CalculateController {
     }
 
     @GetMapping("/statistics")
-    public Map<String, Integer> getRequestStatistics() {
+    public StatsResponse getRequestStatistics() {
         return historyService.getRequestStatistics();
     }
 }
