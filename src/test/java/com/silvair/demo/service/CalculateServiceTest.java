@@ -3,6 +3,7 @@ package com.silvair.demo.service;
 import com.silvair.demo.entity.Operation;
 import com.silvair.demo.entity.OperationType;
 import com.silvair.demo.exception.OperationException;
+import com.silvair.demo.service.calculate.CalculateService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

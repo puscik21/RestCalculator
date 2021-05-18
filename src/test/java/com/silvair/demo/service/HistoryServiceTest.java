@@ -2,6 +2,8 @@ package com.silvair.demo.service;
 
 import com.silvair.demo.entity.Operation;
 import com.silvair.demo.exception.OperationException;
+import com.silvair.demo.service.calculate.CalculateService;
+import com.silvair.demo.service.history.HistoryService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;

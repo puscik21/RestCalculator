@@ -1,4 +1,4 @@
-package com.silvair.demo.service;
+package com.silvair.demo.service.history;
 
 import com.silvair.demo.entity.Operation;
 import com.silvair.demo.entity.HistoryRecord;

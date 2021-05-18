@@ -3,9 +3,9 @@ package com.silvair.demo.controller;
 import com.silvair.demo.entity.Operation;
 import com.silvair.demo.entity.HistoryRecord;
 import com.silvair.demo.exception.OperationException;
-import com.silvair.demo.service.CalculateService;
-import com.silvair.demo.service.HistoryService;
-import com.silvair.demo.service.StatsResponse;
+import com.silvair.demo.service.calculate.CalculateService;
+import com.silvair.demo.service.history.HistoryService;
+import com.silvair.demo.service.history.StatsResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/")

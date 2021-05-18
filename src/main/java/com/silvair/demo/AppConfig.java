@@ -1,7 +1,7 @@
 package com.silvair.demo;
 
 import com.silvair.demo.controller.HistoryRecordInterceptor;
-import com.silvair.demo.service.HistoryService;
+import com.silvair.demo.service.history.HistoryService;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;

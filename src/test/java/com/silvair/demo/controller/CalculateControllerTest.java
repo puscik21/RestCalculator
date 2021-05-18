@@ -1,6 +1,6 @@
 package com.silvair.demo.controller;
 
-import com.silvair.demo.service.HistoryService;
+import com.silvair.demo.service.history.HistoryService;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import io.restassured.module.mockmvc.specification.MockMvcRequestSpecification;
 import io.restassured.response.ResponseOptions;

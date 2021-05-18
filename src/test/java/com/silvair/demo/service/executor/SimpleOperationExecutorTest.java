@@ -3,7 +3,8 @@ package com.silvair.demo.service.executor;
 import com.silvair.demo.entity.Operation;
 import com.silvair.demo.entity.OperationType;
 import com.silvair.demo.exception.OperationException;
-import com.silvair.demo.service.validator.SimpleOperationValidator;
+import com.silvair.demo.service.calculate.executor.SimpleOperationExecutor;
+import com.silvair.demo.service.calculate.validator.SimpleOperationValidator;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

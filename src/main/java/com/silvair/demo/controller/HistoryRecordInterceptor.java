@@ -1,6 +1,6 @@
 package com.silvair.demo.controller;
 
-import com.silvair.demo.service.HistoryService;
+import com.silvair.demo.service.history.HistoryService;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
