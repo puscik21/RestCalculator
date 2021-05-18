@@ -2,6 +2,8 @@ package com.silvair.demo.service;
 
 import com.silvair.demo.entity.Operation;
 import com.silvair.demo.exception.OperationException;
+import com.silvair.demo.service.calculate.CalculateService;
+import com.silvair.demo.service.history.HistoryService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -28,18 +30,18 @@ class HistoryServiceTest {
         for (int i = 0; i < HistoryRecordsCount; i++) {
             Operation operation = Operation.textOperation("1 + 3");
             double result = calculateService.calculateOperation(operation);
-            historyService.saveRequestHistory(operation, result, HttpStatus.OK);
+            historyService.saveOperationHistoryRecord(operation, result, "/test", HttpStatus.OK.value());
         }
     }
 
     @Test
     void numberOfHistoryRecordsInDatabaseShouldMatch() {
-        assertEquals(HistoryRecordsCount, historyService.findAll().size());
+        assertEquals(HistoryRecordsCount, historyService.getAllHistoryRecords().size());
     }
 
     @Test
     void limitOfHistoryRecordsShouldWork() {
-        assertEquals(2, historyService.getNumberOfRecords(2).size());
+        assertEquals(2, historyService.getNumberOfHistoryRecords(2).size());
     }
 
     @Test

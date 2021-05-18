@@ -20,7 +20,7 @@ public class Operation {
     private Long id;
 
     @OneToOne(mappedBy = "operation")
-    private RequestHistory history;
+    private HistoryRecord history;
 
     private Double a;
     private Double b;

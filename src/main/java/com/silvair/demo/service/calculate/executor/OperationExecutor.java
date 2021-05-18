@@ -1,4 +1,4 @@
-package com.silvair.demo.service.executor;
+package com.silvair.demo.service.calculate.executor;
 
 import com.silvair.demo.entity.Operation;
 import com.silvair.demo.entity.OperationType;

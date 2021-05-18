@@ -1,10 +1,10 @@
-package com.silvair.demo.service.executor;
+package com.silvair.demo.service.calculate.executor;
 
 import com.silvair.demo.entity.Operation;
 import com.silvair.demo.entity.OperationType;
 import com.silvair.demo.exception.OperationException;
-import com.silvair.demo.service.validator.OperationValidator;
-import com.silvair.demo.service.validator.SimpleOperationValidator;
+import com.silvair.demo.service.calculate.validator.OperationValidator;
+import com.silvair.demo.service.calculate.validator.SimpleOperationValidator;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

@@ -1,9 +1,9 @@
-package com.silvair.demo.service;
+package com.silvair.demo.service.calculate;
 
 import com.silvair.demo.entity.Operation;
 import com.silvair.demo.entity.OperationType;
 import com.silvair.demo.exception.OperationException;
-import com.silvair.demo.service.executor.OperationExecutor;
+import com.silvair.demo.service.calculate.executor.OperationExecutor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
