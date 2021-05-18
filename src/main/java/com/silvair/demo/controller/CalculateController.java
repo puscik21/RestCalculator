@@ -5,7 +5,7 @@ import com.silvair.demo.entity.HistoryRecord;
 import com.silvair.demo.exception.OperationException;
 import com.silvair.demo.service.calculate.CalculateService;
 import com.silvair.demo.service.history.HistoryService;
-import com.silvair.demo.service.history.StatsResponse;
+import com.silvair.demo.service.history.QueriesStats;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/")
@@ -56,7 +57,12 @@ public class CalculateController {
     }
 
     @GetMapping("/statistics")
-    public StatsResponse getRequestStatistics() {
+    public QueriesStats getRequestStatistics() {
         return historyService.getRequestStatistics();
+    }
+
+    @GetMapping("/statistics/time")
+    public Map<String, QueriesStats> getRequestStatisticsForLastPeriod() {
+        return historyService.getRequestStatisticsForLastPeriod();
     }
 }

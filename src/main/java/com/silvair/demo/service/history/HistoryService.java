@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 @Service
 public class HistoryService {
@@ -53,6 +56,14 @@ public class HistoryService {
         return allRecords.subList(allRecords.size() - limit, allRecords.size());
     }
 
+    public List<HistoryRecord> getHistoryRecordsForLastPeriod(int minutes) {
+        List<HistoryRecord> allRecords = historyRepository.findAll();
+        LocalDateTime beginTime = LocalDateTime.now().minusMinutes(minutes);
+        return allRecords.stream()
+                .filter(record -> record.getDate().isAfter(beginTime))
+                .collect(Collectors.toList());
+    }
+
     public Double sumOfLastOperations(Integer limit) {
         List<HistoryRecord> requestHistories;
         if (limit == null) {
@@ -60,14 +71,36 @@ public class HistoryService {
         } else {
             requestHistories = getNumberOfHistoryRecords(limit);
         }
-
         return requestHistories.stream()
                 .mapToDouble(HistoryRecord::getResultOrZero)
                 .sum();
     }
 
-    public StatsResponse getRequestStatistics() {
+    public QueriesStats getRequestStatistics() {
         List<HistoryRecord> records = getAllHistoryRecords();
-        return StatsResponse.fromRecords(records);
+        return QueriesStats.fromRecords(records);
+    }
+
+    public Map<String, QueriesStats> getRequestStatisticsForLastPeriod() {
+        Map<String, QueriesStats> periodToHistoryRecords = new TreeMap<>();
+        periodToHistoryRecords.put("last minute", getQueriesStatsForPeriod(1));
+        periodToHistoryRecords.put("last hour", getQueriesStatsForPeriod(60));
+        periodToHistoryRecords.put("last day", getQueriesStatsForPeriod(60 * 24));
+        return periodToHistoryRecords;
+    }
+
+    private QueriesStats getQueriesStatsForPeriod(int period) {
+        List<HistoryRecord> records = getHistoryRecordsForLastPeriod(period);
+        return divideQueriesByPeriodTime(QueriesStats.fromRecords(records), period);
+    }
+
+    private QueriesStats divideQueriesByPeriodTime(QueriesStats queriesStats, int period) {
+        divideStatsMapByPeriodTime(queriesStats.getPaths(), period);
+        divideStatsMapByPeriodTime(queriesStats.getOperations(), period);
+        return queriesStats;
+    }
+
+    private void divideStatsMapByPeriodTime(Map<String, Double> statsMap, int period) {
+        statsMap.replaceAll((k, v) -> v = v / (period * 60));
     }
 }

@@ -13,41 +13,41 @@ import java.util.stream.Collectors;
 
 @Getter
 @Setter
-public class StatsResponse {
-    private Map<String, Long> paths;
-    private Map<String, Long> operations;
+public class QueriesStats {
+    private Map<String, Double> paths;
+    private Map<String, Double> operations;
 
-    private StatsResponse() {
+    private QueriesStats() {
     }
 
-    public static StatsResponse fromRecords(List<HistoryRecord> records) {
-        StatsResponse statsResponse = new StatsResponse();
-        statsResponse.setPaths(prepareSimplePaths(records));
-        statsResponse.setOperations(prepareOperationTypes(records));
-        return statsResponse;
+    public static QueriesStats fromRecords(List<HistoryRecord> records) {
+        QueriesStats queriesStats = new QueriesStats();
+        queriesStats.setPaths(prepareSimplePaths(records));
+        queriesStats.setOperations(prepareOperationTypes(records));
+        return queriesStats;
     }
 
-    private static Map<String, Long> prepareSimplePaths(List<HistoryRecord> records) {
-        Map<String, Long> simplePaths = new HashMap<>();
+    private static Map<String, Double> prepareSimplePaths(List<HistoryRecord> records) {
+        Map<String, Double> simplePaths = new HashMap<>();
         List<String> paths = records.stream().map(HistoryRecord::getPath).distinct().collect(Collectors.toList());
         paths.forEach(path -> {
             long queriesCount = records.stream()
                     .filter(record -> record.getPath().equals(path))
                     .count();
-            simplePaths.put(path, queriesCount);
+            simplePaths.put(path, (double) queriesCount);
         });
         return simplePaths;
     }
 
-    private static Map<String, Long> prepareOperationTypes(List<HistoryRecord> records) {
-        Map<String, Long> operations = new HashMap<>();
+    private static Map<String, Double> prepareOperationTypes(List<HistoryRecord> records) {
+        Map<String, Double> operations = new HashMap<>();
         List<OperationType> operationTypes = Arrays.asList(OperationType.values());
         operationTypes.forEach(type -> {
             long queriesCount = records.stream()
                     .filter(record -> record.getOperation() != null)
                     .filter(record -> record.getOperation().getType() == type)
                     .count();
-            operations.put(type.name(), queriesCount);
+            operations.put(type.name(), (double) queriesCount);
         });
         return operations;
     }
