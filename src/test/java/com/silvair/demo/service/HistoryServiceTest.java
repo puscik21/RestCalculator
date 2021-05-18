@@ -28,18 +28,18 @@ class HistoryServiceTest {
         for (int i = 0; i < HistoryRecordsCount; i++) {
             Operation operation = Operation.textOperation("1 + 3");
             double result = calculateService.calculateOperation(operation);
-            historyService.saveOperationRequestHistory(operation, result, "/test", HttpStatus.OK.value());
+            historyService.saveOperationHistoryRecord(operation, result, "/test", HttpStatus.OK.value());
         }
     }
 
     @Test
     void numberOfHistoryRecordsInDatabaseShouldMatch() {
-        assertEquals(HistoryRecordsCount, historyService.findAll().size());
+        assertEquals(HistoryRecordsCount, historyService.getAllHistoryRecords().size());
     }
 
     @Test
     void limitOfHistoryRecordsShouldWork() {
-        assertEquals(2, historyService.getNumberOfRecords(2).size());
+        assertEquals(2, historyService.getNumberOfHistoryRecords(2).size());
     }
 
     @Test

@@ -1,6 +1,6 @@
 package com.silvair.demo;
 
-import com.silvair.demo.controller.RequestHistoryInterceptor;
+import com.silvair.demo.controller.HistoryRecordInterceptor;
 import com.silvair.demo.service.HistoryService;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -17,6 +17,6 @@ public class AppConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new RequestHistoryInterceptor(historyService)).addPathPatterns("/**").excludePathPatterns("/calculate");
+        registry.addInterceptor(new HistoryRecordInterceptor(historyService)).addPathPatterns("/**").excludePathPatterns("/calculate");
     }
 }

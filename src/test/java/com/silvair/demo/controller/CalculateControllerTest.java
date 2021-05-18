@@ -31,6 +31,8 @@ class CalculateControllerTest {
 
     private final String CALCULATE_PATH = "/calculate";
     private final String HISTORY_PATH = "/history";
+    private final String HISTORY_SUM_PATH = "/history/sum";
+    private final String STATISTICS_PATH = "/statistics";
 
     @BeforeAll
     void setUp() {
@@ -62,6 +64,15 @@ class CalculateControllerTest {
     }
 
     @Test
+    void operationHistoryShouldBeSaved() {
+        int countBefore = historyService.getAllHistoryRecords().size();
+        RestAssuredMockMvc.given()
+                .spec(fineRequest)
+                .post(CALCULATE_PATH);
+        assertEquals(countBefore + 1, historyService.getAllHistoryRecords().size());
+    }
+
+    @Test
     void calculateFineRequestShouldReturnOkStatus() {
         ResponseOptions response = RestAssuredMockMvc.given()
                 .spec(fineRequest)
@@ -78,11 +89,23 @@ class CalculateControllerTest {
     }
 
     @Test
-    void operationHistoryShouldBeSaved() {
-        assertEquals(0, historyService.findAll().size());
+    void callingHistoryShouldSaveHistoryRecord() {
         RestAssuredMockMvc.given()
-                .spec(fineRequest)
-                .post(CALCULATE_PATH);
-        assertEquals(1, historyService.findAll().size());
+                .get(HISTORY_PATH);
+        assertEquals(HISTORY_PATH, historyService.getNumberOfHistoryRecords(1).get(0).getPath());
+    }
+
+    @Test
+    void callingHistorySumShouldSaveHistoryRecord() {
+        RestAssuredMockMvc.given()
+                .get(HISTORY_SUM_PATH);
+        assertEquals(HISTORY_SUM_PATH, historyService.getNumberOfHistoryRecords(1).get(0).getPath());
+    }
+
+    @Test
+    void callingStatisticsShouldSaveHistoryRecord() {
+        RestAssuredMockMvc.given()
+                .get(STATISTICS_PATH);
+        assertEquals(STATISTICS_PATH, historyService.getNumberOfHistoryRecords(1).get(0).getPath());
     }
 }

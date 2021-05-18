@@ -1,7 +1,7 @@
 package com.silvair.demo.controller;
 
 import com.silvair.demo.entity.Operation;
-import com.silvair.demo.entity.RequestHistory;
+import com.silvair.demo.entity.HistoryRecord;
 import com.silvair.demo.exception.OperationException;
 import com.silvair.demo.service.CalculateService;
 import com.silvair.demo.service.HistoryService;
@@ -33,20 +33,20 @@ public class CalculateController {
     public ResponseEntity<String> calculateOperation(@RequestBody Operation operation, HttpServletRequest request) {
         try {
             double result = calculateService.calculateOperation(operation);
-            historyService.saveOperationRequestHistory(operation, result, request.getRequestURI(), HttpStatus.OK.value());
+            historyService.saveOperationHistoryRecord(operation, result, request.getRequestURI(), HttpStatus.OK.value());
             return ResponseEntity.ok(String.valueOf(result));
         } catch (OperationException e) {
-            historyService.saveOperationRequestHistory(operation, null, request.getRequestURI(), HttpStatus.BAD_REQUEST.value());
+            historyService.saveOperationHistoryRecord(operation, null, request.getRequestURI(), HttpStatus.BAD_REQUEST.value());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
     @GetMapping("/history")
-    public List<RequestHistory> getAllLimitedRequestHistory(@RequestParam(required = false) Integer limit) {
+    public List<HistoryRecord> getHistoryRecords(@RequestParam(required = false) Integer limit) {
         if (limit == null) {
-            return historyService.findAll();
+            return historyService.getAllHistoryRecords();
         } else {
-            return historyService.getNumberOfRecords(limit);
+            return historyService.getNumberOfHistoryRecords(limit);
         }
     }
 

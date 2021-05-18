@@ -15,7 +15,7 @@ import java.util.Objects;
 @Entity
 @Data
 @NoArgsConstructor
-public class RequestHistory {
+public class HistoryRecord {
 
     @Id
     @GeneratedValue

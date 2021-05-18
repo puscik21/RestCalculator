@@ -1,10 +1,9 @@
 package com.silvair.demo.service;
 
 import com.silvair.demo.entity.Operation;
-import com.silvair.demo.entity.RequestHistory;
+import com.silvair.demo.entity.HistoryRecord;
 import com.silvair.demo.repository.OperationRepository;
 import com.silvair.demo.repository.HistoryRepository;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -22,33 +21,33 @@ public class HistoryService {
         this.historyRepository = historyRepository;
     }
 
-    public void saveOperationRequestHistory(Operation operation, Double result, String path, Integer status) {
-        RequestHistory requestHistory = buildRequestHistory(operation, result, path, status);
+    public void saveOperationHistoryRecord(Operation operation, Double result, String path, Integer status) {
+        HistoryRecord historyRecord = buildHistoryRecord(operation, result, path, status);
         operationRepository.save(operation);
-        historyRepository.save(requestHistory);
+        historyRepository.save(historyRecord);
     }
 
-    public void saveRequestHistory(String path, Integer status) {
-        RequestHistory requestHistory = buildRequestHistory(null, null, path, status);
-        historyRepository.save(requestHistory);
+    public void saveHistoryRecord(String path, Integer status) {
+        HistoryRecord historyRecord = buildHistoryRecord(null, null, path, status);
+        historyRepository.save(historyRecord);
     }
 
-    private RequestHistory buildRequestHistory(Operation operation, Double result, String path, Integer status) {
-        RequestHistory requestHistory = new RequestHistory();
-        requestHistory.setOperation(operation);
-        requestHistory.setResult(result);
-        requestHistory.setPath(path);
-        requestHistory.setDate(LocalDateTime.now());
-        requestHistory.setStatus(status);
-        return requestHistory;
+    private HistoryRecord buildHistoryRecord(Operation operation, Double result, String path, Integer status) {
+        HistoryRecord historyRecord = new HistoryRecord();
+        historyRecord.setOperation(operation);
+        historyRecord.setResult(result);
+        historyRecord.setPath(path);
+        historyRecord.setDate(LocalDateTime.now());
+        historyRecord.setStatus(status);
+        return historyRecord;
     }
 
-    public List<RequestHistory> findAll() {
+    public List<HistoryRecord> getAllHistoryRecords() {
         return historyRepository.findAll();
     }
 
-    public List<RequestHistory> getNumberOfRecords(int limit) {
-        List<RequestHistory> allRecords = historyRepository.findAll();
+    public List<HistoryRecord> getNumberOfHistoryRecords(int limit) {
+        List<HistoryRecord> allRecords = historyRepository.findAll();
         if (limit > allRecords.size()) {
             limit = allRecords.size();
         }
@@ -56,15 +55,15 @@ public class HistoryService {
     }
 
     public Double sumOfLastOperations(Integer limit) {
-        List<RequestHistory> requestHistories;
+        List<HistoryRecord> requestHistories;
         if (limit == null) {
-            requestHistories = findAll();
+            requestHistories = getAllHistoryRecords();
         } else {
-            requestHistories = getNumberOfRecords(limit);
+            requestHistories = getNumberOfHistoryRecords(limit);
         }
 
         return requestHistories.stream()
-                .mapToDouble(RequestHistory::getResultOrZero)
+                .mapToDouble(HistoryRecord::getResultOrZero)
                 .sum();
     }
 
